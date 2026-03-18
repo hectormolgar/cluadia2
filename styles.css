@@ -1,1 +1,275 @@
+/* =========================================
+   VARIABLES GLOBALES Y RESET
+   ========================================= */
+:root {
+    --primary-blue: #6ca6cd;
+    --dark-blue: #1b2738;
+    --logo-dark: #333333;
+    --text-dark: #222222;
+    --text-grey: #666666;
+    --text-light-grey: #9babba;
+    --light-bg: #f5f5f5; 
+    --bg-page: #f7f9fb; /* Fondo gris muy suave para Podcast y Cortometraje */
+    --white: #ffffff;
+    --font-main: 'Montserrat', sans-serif;
+}
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Modificador global para el fondo */
+body.bg-light { background-color: var(--bg-page); }
+
+
+/* =========================================
+   CABECERA COMPARTIDA (HEADER)
+   ========================================= */
+.main-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem; background-color: var(--white);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo { font-size: 1.6rem; font-weight: 800; letter-spacing: 1.5px; color: var(--logo-dark); }
+.logo span { color: var(--primary-blue); }
+
+.menu-container { position: relative; cursor: pointer; padding: 10px 0; }
+.hamburger-icon { display: flex; align-items: center; }
+
+.sliding-menu-sidebar {
+    position: absolute; top: 100%; left: 0; background-color: var(--white);
+    width: 280px; box-shadow: 2px 5px 15px rgba(0,0,0,0.1); border-radius: 0 0 10px 0;
+    opacity: 0; visibility: hidden; transform: translateX(-100%);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); z-index: 999;
+}
+
+.menu-container:hover .sliding-menu-sidebar { opacity: 1; visibility: visible; transform: translateX(0); }
+.sliding-menu-sidebar ul { list-style: none; padding: 20px 0; }
+.sliding-menu-sidebar li a {
+    display: block; padding: 15px 30px; text-decoration: none;
+    color: var(--logo-dark); font-size: 0.95rem; font-weight: 500;
+    transition: background-color 0.2s; border-left: 3px solid transparent;
+}
+.sliding-menu-sidebar li a:hover { background-color: #f9f9f9; color: var(--primary-blue); border-left-color: var(--primary-blue); }
+.menu-highlight { border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px; }
+.menu-highlight a { font-weight: 700 !important; color: var(--primary-blue) !important; }
+
+.user-icon { display: flex; align-items: center; cursor: pointer; }
+
+
+/* =========================================
+   ESTILOS ESPECÍFICOS: 1. PÁGINA DE INICIO
+   ========================================= */
+.hero-seccion { position: relative; height: 70vh; min-height: 500px; background: url('img/hero-bg.jpg') center/cover no-repeat; display: flex; align-items: center; color: var(--white); margin: 1rem 3rem; border-radius: 15px; overflow: hidden; }
+.hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.35); }
+.hero-avatar { position: absolute; top: 0; right: 0; height: 100%; z-index: 1; overflow: hidden; border-radius: 0 15px 15px 0; }
+.hero-avatar img { height: 100%; object-fit: cover; }
+.hero-content { position: relative; z-index: 2; padding-left: 5rem; max-width: 60%; }
+.subtitle-small { font-size: 0.85rem; letter-spacing: 2px; font-weight: 400; margin-bottom: 0.8rem; }
+.hero-title { font-size: 5rem; font-weight: 700; margin-bottom: 0.8rem; line-height: 1; }
+.hero-title span { color: var(--primary-blue); }
+.hero-subtitle { font-size: 1.2rem; font-weight: 400; max-width: 500px; line-height: 1.5; }
+
+.caracteristica-seccion { padding: 4rem 3rem; display: flex; justify-content: center; }
+.caracteristica-container { background: var(--white); display: flex; max-width: 1100px; width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.caracteristica-image { flex: 1; min-height: 350px; }
+.caracteristica-image img { width: 100%; height: 100%; object-fit: cover; }
+.caracteristica-text { flex: 1; padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+.caracteristica-text h2 { color: var(--primary-blue); margin-bottom: 1.5rem; font-size: 2.2rem; font-weight: 700; }
+.caracteristica-text p { color: #555; line-height: 1.8; font-size: 1rem; }
+
+.productos-seccion { background-color: var(--light-bg); padding: 5rem 6rem; }
+.section-header { display: flex; align-items: center; margin-bottom: 3rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
+.vertical-line { width: 5px; height: 30px; background-color: var(--primary-blue); margin-right: 20px; }
+.section-header h2 { font-size: 1.8rem; font-weight: 700; color: var(--logo-dark); }
+.productos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+.producto-card { position: relative; height: 220px; border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--white); display: flex; align-items: flex-end; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+.card-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; z-index: 1; }
+.producto-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%); z-index: 2; transition: opacity 0.3s ease; }
+.card-content { position: relative; z-index: 3; padding: 25px; max-width: 90%; }
+.card-content h3 { margin-bottom: 8px; font-size: 1.3rem; font-weight: 700; }
+.card-content p { font-size: 0.9rem; opacity: 0.9; line-height: 1.4; }
+.producto-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+.producto-card:hover .card-img { transform: scale(1.08); }
+
+.cta-seccion { padding: 5rem 3rem; display: flex; justify-content: center; background-color: var(--white); }
+.cta-box { background-color: var(--primary-blue); color: var(--white); text-align: center; padding: 4rem 3rem; border-radius: 12px; width: 100%; max-width: 900px; }
+.cta-box h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+.cta-box p { margin-bottom: 3rem; font-size: 1.2rem; font-weight: 400; max-width: 600px; margin-left: auto; margin-right: auto; }
+.btn-primary { display: inline-block; background-color: var(--white); color: var(--primary-blue); padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: background-color 0.3s, transform 0.3s; }
+.btn-primary:hover { background-color: #f1f1f1; transform: scale(1.05); }
+
+/* =========================================
+   ESTILOS ESPECÍFICOS: 2. PÁGINA PODCAST
+   ========================================= */
+.podcast-main { padding: 4rem 3rem; display: flex; justify-content: center; }
+.podcast-container { max-width: 1100px; width: 100%; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+.podcast-artwork-card { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.08); background-color: #e6ecef; }
+.artwork-img { width: 100%; height: 100%; object-fit: cover; }
+.artwork-overlay { position: absolute; bottom: 0; left: 0; right: 0; background-color: #3b4248; padding: 20px 25px; color: var(--white); }
+.overlay-subtitle { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: var(--primary-blue); display: block; margin-bottom: 5px; }
+.overlay-title { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+.breadcrumbs { font-size: 0.8rem; color: var(--text-light-grey); margin-bottom: 2rem; text-transform: uppercase; font-weight: 600; }
+.breadcrumbs strong { color: var(--text-dark); }
+.breadcrumbs .separator { margin: 0 5px; }
+.podcast-tags { display: flex; gap: 15px; margin-bottom: 1.5rem; align-items: center; }
+.tag { font-size: 0.75rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; }
+.tag-blue { background-color: #e8f0f6; color: var(--primary-blue); }
+.tag-grey { color: var(--text-grey); padding: 6px 0; }
+.podcast-main-title { font-size: 3.5rem; font-weight: 800; color: var(--dark-blue); margin-bottom: 1.5rem; letter-spacing: -1px; line-height: 1.1; }
+.podcast-description { border-left: 4px solid var(--primary-blue); padding-left: 20px; margin-bottom: 3rem; }
+.podcast-description p { font-size: 1.1rem; line-height: 1.8; color: var(--text-grey); font-weight: 500; }
+
+.audio-player-card { background-color: var(--white); border-radius: 12px; padding: 25px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.player-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.player-show { font-size: 0.7rem; font-weight: 700; color: var(--text-light-grey); letter-spacing: 0.5px; display: block; margin-bottom: 5px; }
+.player-episode { font-size: 1rem; font-weight: 700; color: var(--dark-blue); }
+.player-actions { display: flex; gap: 15px; color: var(--text-light-grey); }
+.action-icon { width: 20px; height: 20px; cursor: pointer; transition: color 0.2s; }
+.action-icon:hover { color: var(--primary-blue); }
+.player-progress { margin-bottom: 20px; }
+.progress-bar { height: 6px; background-color: #e5e9f0; border-radius: 3px; overflow: hidden; margin-bottom: 8px; cursor: pointer; }
+.progress-filled { height: 100%; background-color: var(--primary-blue); border-radius: 3px; }
+.progress-time { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 600; color: var(--text-light-grey); }
+.player-controls { display: flex; justify-content: center; align-items: center; gap: 30px; color: var(--text-light-grey); }
+.control-icon { width: 24px; height: 24px; cursor: pointer; transition: color 0.2s; }
+.control-icon:hover { color: var(--primary-blue); }
+.play-button { width: 55px; height: 55px; background-color: var(--primary-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--white); cursor: pointer; box-shadow: 0 5px 15px rgba(108, 166, 205, 0.4); transition: transform 0.2s, background-color 0.2s; }
+.play-button svg { width: 24px; height: 24px; margin-left: 4px; }
+.play-button:hover { transform: scale(1.05); background-color: #5a90b5; }
+
+
+/* =========================================
+   ESTILOS ESPECÍFICOS: 3. PÁGINA CORTOMETRAJE
+   ========================================= */
+.video-main { padding: 4rem 2rem; max-width: 1000px; margin: 0 auto; }
+
+/* Contenedor del Reproductor de Vídeo */
+.video-player-wrapper {
+    position: relative; width: 100%; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15); margin-bottom: 3rem;
+    background-color: #000; /* Fondo negro por si la imagen no carga */
+    aspect-ratio: 16 / 9;
+}
+
+.video-poster { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Botón central de Play (Vídeo) */
+.video-play-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 70px; height: 70px; background-color: rgba(108, 166, 205, 0.85);
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    color: var(--white); cursor: pointer; transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+.video-play-center svg { width: 30px; height: 30px; margin-left: 4px; }
+.video-play-center:hover { transform: translate(-50%, -50%) scale(1.1); background-color: var(--primary-blue); }
+
+/* Barra inferior del reproductor */
+.video-controls-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    padding: 20px 25px 15px; display: flex; flex-direction: column; gap: 10px;
+}
+
+.video-progress-container { width: 100%; padding: 5px 0; cursor: pointer; }
+.video-progress-bar {
+    width: 100%; height: 5px; background-color: rgba(255,255,255,0.3);
+    border-radius: 3px; position: relative;
+}
+.video-progress-filled {
+    height: 100%; background-color: var(--primary-blue);
+    border-radius: 3px; position: absolute; top: 0; left: 0;
+}
+.video-progress-thumb {
+    width: 12px; height: 12px; background-color: var(--white);
+    border-radius: 50%; position: absolute; top: 50%;
+    transform: translate(-50%, -50%); box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.video-controls-bottom { display: flex; justify-content: space-between; align-items: center; }
+.video-time { color: var(--white); font-size: 0.8rem; font-weight: 500; font-family: monospace; }
+.video-tools { display: flex; align-items: center; gap: 15px; color: var(--white); }
+.tool-icon { width: 18px; height: 18px; cursor: pointer; opacity: 0.8; transition: opacity 0.2s; }
+.tool-icon:hover { opacity: 1; }
+
+/* Información y Sinopsis */
+.video-info-container { text-align: center; max-width: 800px; margin: 0 auto; }
+.video-main-title { font-size: 2rem; font-weight: 800; color: var(--dark-blue); margin-bottom: 1.5rem; letter-spacing: -0.5px; }
+.video-section-label {
+    display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+    color: var(--text-light-grey); margin-bottom: 1rem;
+}
+.video-synopsis-text { font-size: 1.05rem; line-height: 1.7; color: var(--text-grey); font-weight: 500; margin-bottom: 3rem; }
+
+/* Cuadrícula de Créditos */
+.video-credits-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1rem; text-align: center;
+}
+.credit-item { display: flex; flex-direction: column; gap: 5px; }
+.credit-role { font-size: 0.75rem; font-weight: 700; color: var(--text-light-grey); letter-spacing: 1px; }
+.credit-name { font-size: 1rem; font-weight: 700; color: var(--text-dark); }
+
+
+/* =========================================
+   PIE DE PÁGINA COMPARTIDOS (FOOTERS)
+   ========================================= */
+.main-footer { background-color: var(--white); padding: 4rem 3rem 2rem; text-align: center; }
+.footer-icons { display: flex; justify-content: center; gap: 5rem; margin-bottom: 4rem; border-bottom: 1px solid #eee; padding-bottom: 3rem; }
+.icon-item { display: flex; flex-direction: column; align-items: center; color: #777; font-size: 0.95rem; cursor: pointer; }
+.icon-item span { font-size: 2rem; margin-bottom: 10px; }
+
+/* Footer Minimalista (Podcast y Cortometraje) */
+.podcast-footer { padding: 4rem 2rem 2rem; text-align: center; border-top: 1px solid #e0e5ea; margin-top: 2rem; }
+.logo-footer { margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 800; letter-spacing: 1.5px; color: var(--logo-dark); }
+.logo-footer span { color: var(--primary-blue); }
+.social-links-footer { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+.social-links-footer a { color: var(--primary-blue); transition: transform 0.2s; }
+.social-links-footer a:hover { transform: scale(1.1); }
+
+/* Elementos compartidos de los footers */
+.social-links { margin-bottom: 2rem; }
+.social-links a { display: inline-flex; justify-content: center; align-items: center; width: 38px; height: 38px; border: 1px solid #ddd; border-radius: 50%; margin: 0 8px; color: #666; text-decoration: none; transition: all 0.3s; font-size: 1rem; }
+.social-links a:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+
+.footer-links, .footer-links-inline { list-style: none; display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.footer-links a, .footer-links-inline a { text-decoration: none; color: #888; font-size: 0.9rem; font-weight: 600; }
+.footer-links a:hover, .footer-links-inline a:hover { color: var(--primary-blue); }
+.copyright, .copyright-text { color: #bbb; font-size: 0.8rem; }
+
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVO MÓVIL)
+   ========================================= */
+@media (max-width: 900px) {
+    /* Inicio */
+    .main-header { padding: 1rem 1.5rem; }
+    .hero-seccion { margin: 1rem; height: auto; padding: 5rem 2rem; display: block; text-align: center;}
+    .hero-content { padding: 0; max-width: 100%; margin-top: 2rem; }
+    .hero-avatar { display: none; }
+    .hero-title { font-size: 3.5rem; }
+    .caracteristica-container { flex-direction: column; }
+    .caracteristica-image { min-height: 250px; }
+    .caracteristica-text { padding: 3rem 2rem; }
+    .productos-seccion { padding: 3rem 1.5rem; }
+    .footer-icons { gap: 2rem; flex-wrap: wrap; }
+    
+    /* Podcast */
+    .podcast-main { padding: 2rem 1.5rem; }
+    .podcast-container { grid-template-columns: 1fr; gap: 3rem; }
+    .podcast-artwork-card { max-width: 400px; margin: 0 auto; }
+    .podcast-main-title { font-size: 2.5rem; }
+    
+    /* Cortometraje */
+    .video-main { padding: 2rem 1.5rem; }
+    .video-credits-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .video-main-title { font-size: 1.6rem; }
+}
